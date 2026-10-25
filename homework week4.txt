@@ -1,0 +1,40 @@
+creating index.html(home page)
+In app.js
+first create const variable to install the module express
+and set the engine to ejs
+
+then also create port 3000 with console. log with url link
+
+
+In index.html
+start with the nav bar in the with the soft grey color of the money also put some logo in the images folder and put as the logo in the nav bar. IN the right upper corner, there will be home , history and contact.In the body there will be the image from images folder beside put the suitable description.At the bottom there will be log in button and continuous us create the web and use bootstrap to get very nice style
+
+
+
+
+
+
+Creating Log in form and link to welcome page
+
+When user click log in from index page ,
+the route lead to /log in page which is the form which include Name email contact and description and above the form is logo.after submitting post req with the form ,we create the variable called users and stored as the array .and lead to the page called welcome.ejs which is Welcome "user name" in the center.and make same theme and creative background .Use new photo with url if needed to make it nice.also under the welcome text,there is try it now. beside put some nice text with boot strap
+
+creating homepage for guest and users
+There will be different pages for user and guest cause guest are just a tast of the web they cannot use full functional web if they have not log in.First, I have home.ejs which is for the user, in the home page, it have the budget buddy in nav bar (if there is no this app name in nav.ejs change it).the we will have buttom for home/about and profile(with a round shape).We have save money /spedings and history for transaction .And also (Date and time ) to track we are saving money in this month or not.Then also create the same page for the guest.log in.But whatever the user click sth on the guesthome page it will notified the user to log in and lead to login page. put some modern bootstrap and use appropriate photo dealing with saving money to make better lay out
+
+very nice but i don't like using the same bg make it more and match with lay out the new one.And in the function.you use only html for display not edit for the user.I want user to type their income and spending .SO I created 3 files.spending.ejs,caculation.ejs,saving.ejs and history.ejs .we use embaded js to make all caculations and function in caculation.ejs and transfer data to display with express also .the the other 3 ejs is for each saving ,spending and transaction history with date.you can leave suitable place holder page for later refinement for this 3 page.just focus on caculation
+
+
+
+Creating home page again
+first delete all code in calculator .ejs .I want only the function for adding money according to category and transfer the data back to show in home page on the adding income it will also record category. user can also add the new categories and store in category.array
+
+
+do it the same for expenses also
+
+
+For the transactions It doesnot need to have calculator it will show the all the save money and expenses in total and show you are saving money or not and also need to show which categories have the highest income and expenses
+
+
+
+ 

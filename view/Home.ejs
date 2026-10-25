@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Buddy - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/innserview/all.css">
+</head>
+<body class="page-home">
+
+    <%- include('innserview/nav') %>
+
+    <!-- Dashboard body -->
+    <div class="dash-wrapper">
+        <div class="container py-4">
+
+            <!-- Welcome -->
+            <div class="dash-card d-flex align-items-center gap-3 mb-4">
+                <img src="/images/logo.jpg" alt="" width="52" height="52" class="rounded-circle border border-warning border-2 flex-shrink-0">
+                <div>
+                    <h4 class="fw-bold mb-0 text-white">Welcome back, <span class="text-warning"><%= name %></span>!</h4>
+                    <p class="text-white-50 small mb-0">Here's your financial overview for today.</p>
+                </div>
+            </div>
+
+            <!-- Compute totals from transactions -->
+            <%
+                const incomeTypes = ['Salary', 'Freelance', 'Business', 'Other Income'];
+                const now = new Date();
+
+                // Get only this month's transactions
+                const thisMonth = [];
+                for (let i = 0; i < transactions.length; i++) {
+                    const t = transactions[i];
+                    const d = new Date(t.date);
+                    if (d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) {
+                        thisMonth.push(t);
+                    }
+                }
+
+                // Add up income and spending for this month, and count entries
+                let totalIncome    = 0;
+                let totalSpending  = 0;
+                let incomeCount    = 0;
+                let spendingCount  = 0;
+                for (let i = 0; i < thisMonth.length; i++) {
+                    const t      = thisMonth[i];
+                    const amount = parseFloat(t.amount) || 0;
+                    if (t.type === 'income') {
+                        totalIncome = totalIncome + amount;
+                        incomeCount = incomeCount + 1;
+                    } else {
+                        totalSpending = totalSpending + amount;
+                        spendingCount = spendingCount + 1;
+                    }
+                }
+            %>
+
+            <!-- Stat Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card stat-green">
+                        <div class="stat-icon"><i class="bi bi-piggy-bank-fill"></i></div>
+                        <div class="stat-label">Save Money</div>
+                        <div class="stat-value">$<%= totalIncome.toFixed(2) %></div>
+                        <div class="stat-sub"><%= incomeCount %> income entries</div>
+                        <a href="/caculation" class="btn btn-sm btn-outline-light rounded-pill mt-auto pt-3 w-100">Add Income</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card stat-red">
+                        <div class="stat-icon"><i class="bi bi-credit-card-2-front-fill"></i></div>
+                        <div class="stat-label">Spendings</div>
+                        <div class="stat-value">$<%= totalSpending.toFixed(2) %></div>
+                        <div class="stat-sub"><%= spendingCount %> spending entries</div>
+                        <a href="/spending" class="btn btn-sm btn-outline-light rounded-pill mt-auto pt-3 w-100">Add Expense</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card stat-blue">
+                        <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+                        <div class="stat-label">Transactions</div>
+                        <div class="stat-value"><%= thisMonth.length %></div>
+                        <div class="stat-sub">This month</div>
+                        <a href="/history" class="btn btn-sm btn-outline-light rounded-pill mt-auto pt-3 w-100">View History</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Savings Progress -->
+            <%
+                const monthlySaved = totalIncome - totalSpending;
+                const goalAmt      = parseFloat(savingsGoal) || 0;
+                const onTrack      = monthlySaved >= 0;
+
+                // Work out what percentage of the goal has been reached
+                let pct = 0;
+                if (goalAmt > 0) {
+                    pct = Math.round((monthlySaved / goalAmt) * 100);
+                    if (pct > 100) { pct = 100; }
+                }
+            %>
+            <div class="dash-card mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h6 class="text-white fw-bold mb-0">
+                        <i class="bi bi-bar-chart-fill text-warning me-2"></i>Monthly Savings Tracker
+                    </h6>
+                    <!-- Set Goal Form -->
+                    <form action="/goal" method="POST" class="d-flex gap-2 align-items-center">
+                        <input type="number" name="goal" class="form-control form-control-sm goal-input"
+                               placeholder="Set goal $" min="0" step="0.01"
+                               value="<%= goalAmt > 0 ? goalAmt : '' %>"
+                               style="width:130px;">
+                        <button type="submit" class="btn btn-sm btn-warning rounded-pill fw-bold px-3">
+                            Set Goal
+                        </button>
+                    </form>
+                </div>
+
+                <div class="d-flex justify-content-between text-white-50 small mb-1">
+                    <span>
+                        Saved this month:
+                        <span class="fw-bold <%= onTrack ? 'text-success' : 'text-danger' %>">
+                            <%= onTrack ? '+' : '' %>$<%= monthlySaved.toFixed(2) %>
+                        </span>
+                    </span>
+                    <span>
+                        Goal: <span class="text-warning fw-bold">
+                            <%= goalAmt > 0 ? '$' + goalAmt.toFixed(2) : 'Not set' %>
+                        </span>
+                    </span>
+                </div>
+
+                <div class="progress mb-2" style="height:14px; border-radius:8px; background:rgba(255,255,255,0.1);">
+                    <div class="cat-bar progress-bar fw-bold"
+                         data-width="<%= goalAmt > 0 ? pct : 0 %>"
+                         data-color="<%= pct >= 100 ? '#198754' : '#ffc107' %>"
+                         style="border-radius:8px; color:#000;">
+                        <%= goalAmt > 0 ? pct + '%' : '' %>
+                    </div>
+                </div>
+
+                <p class="text-white-50 small mb-0">
+                    <% if (goalAmt === 0) { %>
+                        <i class="bi bi-info-circle text-warning me-1"></i>Set a savings goal above to track your progress.
+                    <% } else if (pct >= 100) { %>
+                        <i class="bi bi-trophy-fill text-warning me-1"></i>Goal reached! Great job this month!
+                    <% } else if (onTrack) { %>
+                        <i class="bi bi-emoji-smile text-warning me-1"></i>You're <%= pct %>% toward your goal — keep it up!
+                    <% } else { %>
+                        <i class="bi bi-exclamation-triangle-fill text-danger me-1"></i>You're spending more than you earn this month.
+                    <% } %>
+                </p>
+            </div>
+
+            <!-- Recent Transactions -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.cat-bar').forEach(el => {
+            el.style.width = el.dataset.width + '%';
+            if (el.dataset.color) el.style.background = el.dataset.color;
+        });
+    </script>
+</body>
+</html>

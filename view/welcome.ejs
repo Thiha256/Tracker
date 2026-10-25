@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Buddy - Welcome</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/innserview/all.css">
+</head>
+<body class="page-welcome">
+
+    <div class="overlay">
+        <!-- Welcome heading -->
+        <div class="text-center mb-4">
+            <i class="bi bi-stars text-warning" style="font-size: 3rem;"></i>
+            <h1 class="welcome-title mt-2">Welcome, <span><%= name %></span>!</h1>
+            <p class="welcome-sub mx-auto mt-2">
+                You're all set to take control of your finances.<br>
+                Your journey to smarter budgeting starts right here.
+            </p>
+        </div>
+
+        <!-- Try it now box -->
+        <div class="try-box text-center mb-4">
+            <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
+                <div class="text-start">
+                    <h5 class="fw-bold mb-1 text-warning"><i class="bi bi-rocket-takeoff-fill me-2"></i>Try It Now</h5>
+                    <p class="small text-white-50 mb-0">
+                        Start tracking your spending, set a savings goal,<br>
+                        and see your money habits at a glance.
+                    </p>
+                </div>
+                <a href="/home" class="btn btn-warning fw-bold rounded-pill px-4 py-2 flex-shrink-0">
+                    Explore <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick stat boxes -->
+        <div class="d-flex gap-3 flex-wrap justify-content-center text-center">
+            <div class="feature-box px-4 py-3" style="min-width:130px;">
+                <div class="feature-icon text-warning"><i class="bi bi-wallet2"></i></div>
+                <div class="small fw-semibold">Track</div>
+            </div>
+            <div class="feature-box px-4 py-3" style="min-width:130px;">
+                <div class="feature-icon text-success"><i class="bi bi-graph-up-arrow"></i></div>
+                <div class="small fw-semibold">Grow</div>
+            </div>
+            <div class="feature-box px-4 py-3" style="min-width:130px;">
+                <div class="feature-icon text-info"><i class="bi bi-shield-check"></i></div>
+                <div class="small fw-semibold">Stay Safe</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
